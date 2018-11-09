@@ -180,7 +180,7 @@ class App extends React.Component {
   }
 }
           `}</JsCode>
-          <Link href="https://codesandbox.io/s/j477j86vk3" />
+          <Link href="https://codesandbox.io/s/pjl887mpj7" />
         </Slide>
 
         <Slide>
@@ -329,7 +329,7 @@ function B() {
   return <div>Component B {size}</div>
 }
 `}</JsCode>
-          <Link href="https://codesandbox.io/s/5zm345r9ln" />
+          <Link href="https://codesandbox.io/s/m525wqvznx" />
         </Slide>
 
         <Slide>
@@ -720,11 +720,7 @@ function Counter({initialCount}) {
         </Slide>
 
         <Slide>
-          <Image src={require('./images/mentalModel.jpg')} height={500}/>
-        </Slide>
-
-        <Slide>
-          <Heading size={3}>I encourage you to play with it in practice and see if that changes how you feel</Heading>
+          <Heading size={3}>I encourage you to play with it in practice and see how you feel</Heading>
         </Slide>
 
         <Slide>
