@@ -758,12 +758,6 @@ const JsCode = ({ children, ...other }) => (
   <CodePane lang="javascript" source={children} {...other} />
 );
 
-const GqlCode = ({ children }) => <CodePane lang="graphql" source={children} />;
-
-const JsonCode = ({ children }) => <CodePane lang="json" source={children} />;
-
-const SqlCode = ({ children }) => <CodePane lang="sql" source={children} />;
-
 const Link = ({ href, title }) => (
   <a href={href} target="_blank">
     {title || href}
