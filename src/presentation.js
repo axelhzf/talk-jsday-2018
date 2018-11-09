@@ -142,7 +142,7 @@ export default class Presentation extends React.Component {
         </Slide>
 
         <Slide>
-          <Heading size={2}>What problem solves?</Heading>
+          <Heading size={2}>What problem does it solve?</Heading>
           <List>
             <ListItem>Hard to reuse stateful logic between components</ListItem>
             <ListItem>Complex components become hard to understand</ListItem>
@@ -450,8 +450,8 @@ function App() {
         </Slide>
 
         <Slide>
-          <Link href="https://twitter.com/prchdk/status/1056960391543062528 src/images/breakUnits.jpg"/>
-          <Image src={require('./images/breakUnits.jpg')}/>
+          <Link href="https://twitter.com/prchdk/status/1056960391543062528"/>
+          <Image src={require('./images/breakUnits.jpg')} height={500}/>
         </Slide>
 
         <Slide>
@@ -552,7 +552,7 @@ function ExampleWithManyStates() {
         <Slide>
           <List>
             <ListItem>
-              The name es the property is not part of the function
+              The name is the property is not part of the function
             </ListItem>
             <ListItem>
               React assumes that if you call useState many times, you do it in
@@ -590,7 +590,7 @@ useState([{ text: 'Learn Hooks' }]);
         </Slide>
 
         <Slide>
-          <Heading size={3}>React hooks not magic, just arrays</Heading>
+          <Heading size={3}>React hooks are not magic, just arrays</Heading>
         </Slide>
 
         <Slide>
