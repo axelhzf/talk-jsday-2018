@@ -57,7 +57,9 @@ export default class Presentation extends React.Component {
         <Slide>
           <Heading fit>I was going to talk about React internals</Heading>
           <List>
-            <ListItem>Concurrent Mode (previously known as "Async React")</ListItem>
+            <ListItem>
+              Concurrent Mode (previously known as "Async React")
+            </ListItem>
             <ListItem>Suspense</ListItem>
             <ListItem>Time slicing</ListItem>
             <ListItem>
@@ -69,9 +71,7 @@ export default class Presentation extends React.Component {
           </List>
         </Slide>
 
-        <Slide>
-          but...
-        </Slide>
+        <Slide>but...</Slide>
 
         <Slide>
           <Image
@@ -123,7 +123,8 @@ export default class Presentation extends React.Component {
             <ListItem>Completely opt-in</ListItem>
             <ListItem>100% backwards-compatible</ListItem>
             <ListItem>
-              They’re currently in React v16.7.0-alpha and being discussed in an open RFC.
+              They’re currently in React v16.7.0-alpha and being discussed in an
+              open RFC.
             </ListItem>
           </List>
         </Slide>
@@ -152,17 +153,13 @@ export default class Presentation extends React.Component {
         <Slide>
           <Heading size={2}>What problem solves?</Heading>
           <List>
-            <ListItem><strong>Hard to reuse stateful logic between components</strong></ListItem>
+            <ListItem>
+              <strong>Hard to reuse stateful logic between components</strong>
+            </ListItem>
             <ListItem>Complex components become hard to understand</ListItem>
             <ListItem>Classes confuse both people and machines</ListItem>
           </List>
         </Slide>
-
-        <Slide>
-
-        </Slide>
-
-
 
         <Slide>
           <JsCode>{`
@@ -183,7 +180,7 @@ class App extends React.Component {
   }
 }
           `}</JsCode>
-          <Link href="https://codesandbox.io/s/j477j86vk3"/>
+          <Link href="https://codesandbox.io/s/j477j86vk3" />
         </Slide>
 
         <Slide>
@@ -233,7 +230,7 @@ const B = withSize(function B({ size }) {
 });
           `}</JsCode>
 
-          <Link href="https://codesandbox.io/s/p9509pmr9q"/>
+          <Link href="https://codesandbox.io/s/p9509pmr9q" />
         </Slide>
 
         <Slide>
@@ -275,7 +272,7 @@ function A() {
 }
           `}</JsCode>
 
-          <Link href="https://codesandbox.io/s/7kn5xjzl06"/>
+          <Link href="https://codesandbox.io/s/7kn5xjzl06" />
         </Slide>
 
         <Slide>
@@ -299,9 +296,7 @@ function A() {
         </Slide>
 
         <Slide>
-          <Heading size={3}>
-            Hooks allow you to reuse stateful logic without changing your component hierarchy
-          </Heading>
+          <Heading size={2}>Hooks</Heading>
         </Slide>
 
         <Slide>
@@ -323,7 +318,7 @@ function useSize() {
         </Slide>
 
         <Slide>
-<JsCode>{`
+          <JsCode>{`
 function A() {
   const size = useSize();
   return <div>Component A {size}</div>
@@ -334,7 +329,7 @@ function B() {
   return <div>Component B {size}</div>
 }
 `}</JsCode>
-          <Link href="https://codesandbox.io/s/5zm345r9ln"/>
+          <Link href="https://codesandbox.io/s/5zm345r9ln" />
         </Slide>
 
         <Slide>
@@ -348,24 +343,99 @@ function B() {
           <Heading size={2}>What problem solves?</Heading>
           <List>
             <ListItem>Hard to reuse stateful logic between components</ListItem>
-            <ListItem><strong>Complex components become hard to understand</strong></ListItem>
+            <ListItem>
+              <strong>Complex components become hard to understand</strong>
+            </ListItem>
             <ListItem>Classes confuse both people and machines</ListItem>
           </List>
         </Slide>
 
         <Slide>
+          <Link href="https://codesandbox.io/s/j477j86vk3" />
+          <JsCode>{`
+class App extends React.Component {
+
+  state = {
+    width: window.innerWidth,
+    count: 0
+  };
+
+  componentDidMount() {
+    window.addEventListener("resize", this.handleResize);
+    this.interval = setInterval(() => {
+      this.setState({ count: this.state.count + 1 });
+    }, 1000);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.handleResize);
+    clearInterval(this.interval);
+  }
+
+  handleResize = () => {
+    this.setState({ width: window.innerWidth });
+  };
+
+  render() {
+    return (
+      <div>
+        <div>{this.state.width}</div>
+        <div>
+          Count {this.state.count}
+          <button onClick={() => this.setState({ count: 0 })}>reset</button>
+        </div>
+      </div>
+    );
+  }
+}
+          `}</JsCode>
+        </Slide>
+
+        <Slide>
           <Heading size={3}>
-            Hooks lets you use state and other React features without writing a class
+            Each lifecycle method often contains a mix of unrelated logic
           </Heading>
         </Slide>
 
-
         <Slide>
-          new mental model https://twitter.com/aweary/status/1055514451535790081
+          <JsCode>{`
+function useCounter() {
+  const [count, setCount] = React.useState(0);
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setCount(prevCount => prevCount + 1)
+    }, 1000)
+    return () => clearInterval(interval);
+  }, []);
+  return [count, setCount];
+}
+          `}</JsCode>
         </Slide>
 
         <Slide>
-          <Image src={require('./images/copyReact.jpg')} height={500}/>
+          <JsCode>{`
+function App() {
+  const width = useSize();
+  const [count, setCount] = useCounter();
+  return (
+    <div className="App">
+      <div>{width}</div>
+      <div>
+        Count {count}
+        <button onClick={() => setCount(0)}>reset</button>
+      </div>
+    </div>
+  );
+}
+`}</JsCode>
+          <Link href="https://codesandbox.io/s/5zm345r9ln" />
+        </Slide>
+
+        <Slide>
+          <Heading size={3}>
+            Hooks let you split one component into smaller functions based on
+            what pieces are related
+          </Heading>
         </Slide>
 
         <Slide>
@@ -373,59 +443,69 @@ function B() {
           <List>
             <ListItem>Hard to reuse stateful logic between components</ListItem>
             <ListItem>Complex components become hard to understand</ListItem>
-            <ListItem>Classes confuse both people and machines</ListItem>
-          </List>
-        </Slide>
-
-
-        <Slide>
-          <Heading>
-            Hooks allow you to reuse stateful logic without changing your
-            component hierarchy
-          </Heading>
-        </Slide>
-
-        <Slide>
-          <Heading size={2}>
-            Complex components become hard to understand
-          </Heading>
-          <List>
             <ListItem>
-              Each lifecycle method often contains a mix of unrelated logic
-            </ListItem>
-            <ListItem>
-              componentDidMount, componentDidUpdate, componentWillUnmount
-            </ListItem>
-            <ListItem>
-              completely unrelated code ends up combined in a single method
+              <strong>Classes confuse both people and machines</strong>
             </ListItem>
           </List>
         </Slide>
 
         <Slide>
-          <Heading>
-            This is why people use a separate state managemenet library like
-            redux. However that often introduces too much abstraction, requires
-            you to jum between different files, and makes reusing components
-            more difficult.
-          </Heading>
-          <Heading>
-            Hooks let you split one component into smaller functions based on
-            what pieces are related (such as setting up a subscription or
-            fetching data)
-          </Heading>
+          <Heading size={2}>Classes confuse people</Heading>
+          <Link href="https://codesandbox.io/s/k52vy881v7" />
         </Slide>
 
         <Slide>
-          <Heading>
+          <Heading size={2}>Classes confuse machine</Heading>
+        </Slide>
+
+        <Slide>
+          <Heading size={3}>
             Ahead of time compilation of components has a lot of future
-            potential
+            potential. Especially if it's not limited to templates.
           </Heading>
-          <Heading>Especially if it's not limited to templates.</Heading>
-          <Heading>Component folding using Prepack</Heading>
-          Classes don't minify very well. We want to present an API that makes
-          it more likely for code to stay on the optimizable path
         </Slide>
+
+        <Slide>
+          <Heading size={3}>
+            Component folding using{' '}
+            <a href="https://prepack.io/repl.html#BQMwrgdgxgLglgewgAmASmQbwFDOeaeJfOAIyQEMoo5gAPDHPPAJwFMYwWU7kAeALzIAjMgD8yXgC4S5CFRr1kAWhEYA1LMrVavVQCY0AblzIAvqYDmAGwSkK1gHS8hIMtsXCADMexm06EZAA">
+              Prepack
+            </a>
+          </Heading>
+        </Slide>
+
+        <Slide>
+          <Image src={require('./images/prepack-react.jpg')} height={600}/>
+        </Slide>
+
+        <Slide>
+          <Heading size={2}>Classes don't minify very well</Heading>
+        </Slide>
+
+        <Slide>
+          <Link href="https://twitter.com/jamiebuilds/status/1056015484364087297"/>
+          <Image src={require('./images/minimize.jpg')} height={600}/>
+        </Slide>
+
+
+
+
+
+
+
+
+
+
+
+
+        <Slide>
+          new mental model https://twitter.com/aweary/status/1055514451535790081
+        </Slide>
+
+        <Slide>
+          <Image src={require('./images/copyReact.jpg')} height={500} />
+        </Slide>
+
 
         <Slide>
           <JsCode>{`

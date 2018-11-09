@@ -203,7 +203,9 @@ const screen = (colorArgs = defaultColors, fontArgs = defaultFonts) => {
         hyphens: 'none',
         whiteSpace: 'pre-wrap',
         padding: '0.5rem',
-        margin: 0
+        margin: 0,
+        maxHeight: '100vh',
+        overflowY: 'scroll'
       },
       code: {
         color: 'black',
