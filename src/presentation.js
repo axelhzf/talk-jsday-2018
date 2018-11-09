@@ -552,7 +552,7 @@ function ExampleWithManyStates() {
         <Slide>
           <List>
             <ListItem>
-              The name is the property is not part of the function
+              The name property is not part of the function
             </ListItem>
             <ListItem>
               React assumes that if you call useState many times, you do it in
