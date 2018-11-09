@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "parcel index.html",
-    "build": "rm -rf docs && parcel build -d docs --public-url . index.html",
+    "build": "rm -rf docs && parcel build --no-cache -d docs --public-url . index.html",
     "deploy": "npm run build && git add . && git commit -m deploy && git push",
     "tweets": "screenshot-tweet https://twitter.com/acdlite/status/1057419582883815424 src/images/copyReact.jpg && screenshot-tweet https://twitter.com/jamiebuilds/status/1055514836484841472 src/images/useWindow.jpg"
   },
