@@ -471,7 +471,7 @@ function App() {
         </Slide>
 
         <Slide>
-          <Heading size={2}>Classes confuse machine</Heading>
+          <Heading size={2}>Classes confuse machines</Heading>
         </Slide>
 
         <Slide>
